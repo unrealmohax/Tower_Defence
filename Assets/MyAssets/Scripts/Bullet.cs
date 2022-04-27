@@ -11,7 +11,7 @@ public class Bullet : MonoBehaviour
     private void Start()
     {
          _Speed = 10f;
-         _TimeLife = 5f;
+         _TimeLife = 2f;
     }
 
     private void Update()
@@ -20,7 +20,10 @@ public class Bullet : MonoBehaviour
         if (_TimeLife <= 0)
             Destroy(gameObject);
 
-        transform.position = Vector3.MoveTowards(transform.position, Target.transform.position + new Vector3(0 , 0.25f , 0), Time.deltaTime * _Speed );
+        if (Target != null)
+            transform.position = Vector3.MoveTowards(transform.position, Target.transform.position + new Vector3(0 , 0.25f , 0), Time.deltaTime * _Speed );
+        else
+            Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)

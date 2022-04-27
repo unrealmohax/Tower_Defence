@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4687348274107905079}
   - component: {fileID: 6228133886164768757}
   - component: {fileID: 5586785969097591794}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Icosphere
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -95,12 +95,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a92bb8ec443f974c83b26b7dc41a0fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _Enemy: {fileID: 0}
   _TimeLife: 20
   _Speed: 50
   _Damage: 0
-  StartPosition: {x: 0, y: 0, z: 0}
-  TargetPosition: {x: 0, y: 0, z: 0}
+  Target: {fileID: 0}
 --- !u!135 &5586785969097591794
 SphereCollider:
   m_ObjectHideFlags: 0

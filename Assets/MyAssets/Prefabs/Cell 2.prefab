@@ -12,12 +12,13 @@ GameObject:
   - component: {fileID: 6416243937563451686}
   - component: {fileID: 2096084610274555730}
   - component: {fileID: 8648820970806226167}
+  - component: {fileID: -1660676809614272843}
   m_Layer: 0
-  m_Name: Cell (72)
+  m_Name: Cell 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8626358137923491670
 Transform:
@@ -99,6 +100,26 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-1660676809614272843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094284198228040807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a34c8885fce6934789ad996e161a1e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainMaterial: {fileID: 2100000, guid: c747435923d8d7342b6960cddeccf4a3, type: 2}
+  CanBuildMaterial: {fileID: 2100000, guid: dfb11764e4662d2459057be9dd61fece, type: 2}
+  CanUpgradeMaterial: {fileID: 2100000, guid: ed25bc6420000f145983ab441fac9d5a, type: 2}
+  CantMaterial: {fileID: 2100000, guid: c78ededd5645028438c270dfbcb73484, type: 2}
+  CanBuild: 1
+  CanUpgrade: 0
+  TowerPrefab: {fileID: 7992538144741997782, guid: fdca2023b2a63e94e9e9272076d40235, type: 3}
+  _TowerBuild: {fileID: 0}
 --- !u!1001 &833411463146770960
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -109,6 +130,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 638dc165572d2a84081d13ce1afb4d52, type: 3}
       propertyPath: m_Name
       value: Grass_02 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 638dc165572d2a84081d13ce1afb4d52, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 638dc165572d2a84081d13ce1afb4d52, type: 3}
       propertyPath: m_RootOrder
@@ -188,6 +213,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Grass_02
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 638dc165572d2a84081d13ce1afb4d52, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 638dc165572d2a84081d13ce1afb4d52, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -266,6 +295,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Grass_02 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 638dc165572d2a84081d13ce1afb4d52, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 638dc165572d2a84081d13ce1afb4d52, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -343,6 +376,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 638dc165572d2a84081d13ce1afb4d52, type: 3}
       propertyPath: m_Name
       value: Grass_02 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 638dc165572d2a84081d13ce1afb4d52, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 638dc165572d2a84081d13ce1afb4d52, type: 3}
       propertyPath: m_RootOrder

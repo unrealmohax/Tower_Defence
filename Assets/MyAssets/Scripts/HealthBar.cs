@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,7 +14,7 @@ public class HealthBar : MonoBehaviour
         _Enemy = transform.root.GetComponent<Enemy>();
         _ProgressBar = GetComponent<Image>();
         _ProgressBarColor = GetComponent<Graphic>();
-        InvokeRepeating("HealthBars", 0, 0.5f);
+        InvokeRepeating("HealthBars", 0, 0.25f);
     }
 
     private Color ColorBarS(float param)

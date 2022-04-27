@@ -3,12 +3,15 @@ using UnityEngine;
 public class AttackEnemies : MonoBehaviour
 {
     private Tower _Tower;
-    private LookAtTarget _LookAtTarget;
 
-    [SerializeField] private GameObject _Bullets;
+    [SerializeField] private GameObject _Target, _Bullets;
 
     [SerializeField] private int _Price;
-    [SerializeField] private int _FiringRate; 
+    [SerializeField] private int _FiringRate;
+    
+    private Vector3 _Direction;
+
+    private Transform _BulletSpawn, _Gun;
 
     private float _Delay; 
 
@@ -16,46 +19,61 @@ public class AttackEnemies : MonoBehaviour
     {
         _Delay = 1 / _FiringRate;
         _Tower = GetComponent<Tower>();
+
+        foreach (Transform child in transform.GetComponentsInChildren<Transform>())
+        {
+            if (child.name == "BulletSpawn")
+                _BulletSpawn = child;
+            if (child.name == "Gun")
+                _Gun = child;
+        }
     }
 
     private void Update()
     {
-        foreach (Transform child in transform.GetComponentsInChildren<Transform>())
-            if (child.tag == "Turell")
-                 _LookAtTarget = child.GetComponent<LookAtTarget>();
-
         _Delay -= Time.deltaTime;
-        GameObject target = null;
-        
-        float minEnemyDistance = float.MaxValue;
-        foreach (GameObject enemy in _Tower.EnemiesInRange)
+
+        FindEnemy();
+
+        if (_Target != null)
         {
-            float distanceToFinish = enemy.GetComponent<EnemyMoving>().DistanceToFinish();
-            if (distanceToFinish < minEnemyDistance)
-            {
-                target = enemy;
-                minEnemyDistance = distanceToFinish;
-            }
-        }
-        
-        if (target != null)
-        {
+            LookAtTarget();
             if (_Delay <= 0)
             {
                 _Delay = 1 / _FiringRate;
-                Shoot(target.GetComponent<Collider>());
+                Shoot();
             }
         }
     }
 
-    private void Shoot(Collider target)
+    private void FindEnemy() 
     {
-        GameObject newBullet = Instantiate(_Bullets, transform.position + new Vector3( 0 , 1.2f , 0), Quaternion.identity);
-        Bullet _Bullet = newBullet.GetComponent<Bullet>();
-
-        _Bullet.Target = target.gameObject;
-        _LookAtTarget.NewTarget(target.gameObject);
+        float minEnemyDistance = float.MaxValue;
+        foreach (GameObject enemy in _Tower.EnemiesInRange)
+        {
+            float DistanceToFinish = enemy.GetComponent<EnemyMoving>().DistanceToFinish();
+            if (DistanceToFinish < minEnemyDistance)
+            {
+                _Target = enemy;
+                minEnemyDistance = DistanceToFinish;
+            }
+        }
     }
 
-    
+    private void Shoot ()
+    {
+        GameObject newBullet = Instantiate(_Bullets, _BulletSpawn.position, Quaternion.identity);
+        Bullet _Bullet = newBullet.GetComponent<Bullet>();
+
+        _Bullet.Target = _Target;
+    }
+
+    private void LookAtTarget ()
+    {
+        _Direction = _Target.transform.position;
+        _Direction.y = _Gun.transform.position.y;
+        _Direction = _Gun.transform.position - _Direction;
+
+        _Gun.transform.rotation = Quaternion.LookRotation(_Direction);
+    }
 }

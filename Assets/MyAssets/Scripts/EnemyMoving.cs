@@ -82,7 +82,7 @@ public class EnemyMoving : MonoBehaviour
         return _Speed != 0;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         _Anim.SetBool("Run", Running());
 

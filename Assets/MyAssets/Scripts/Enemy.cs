@@ -13,7 +13,10 @@ public class Enemy : MonoBehaviour
 
     private int Difficulty = 1;
 
-    private bool First = true; 
+    private bool First = true;
+
+    public int Reward { get; private set; } = 10;
+
     private void Start()
     {
         _UI = GameObject.Find("Canvas").GetComponent<UI>();
@@ -43,7 +46,7 @@ public class Enemy : MonoBehaviour
     {
         if(_Health <= 0 && First)
         {
-            Events.KillEnemy?.Invoke();
+            Events.KillEnemy?.Invoke(gameObject);
             Destroy(gameObject);
         }
             

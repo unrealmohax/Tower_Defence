@@ -9,11 +9,13 @@ using UnityEngine.SceneManagement;
 public class UI : MonoBehaviour
 {
     private Spawner _Spawner;
-    private Transform BPause, PauseMenu, MenuLVL, DeathPanel, WaveClearPanel, VictoryPanel, SpawnEnemy, KillEnemy, Wave;
-    private Text SpawnEnemyText, KillEnemyText, WaveText;
+    private ResourceManager _ResourceManager;
+
+    private Transform BPause, PauseMenu, MenuLVL, DefeatPanel, WaveClearPanel, VictoryPanel, SpawnEnemy, Gold, KillEnemy, Wave;
+    private Text SpawnEnemyText, KillEnemyText, WaveText, GoldText;
 
     private Button[] ButtonLVL;
-    private Text[] DeathPanelText;
+    //private Text[] DeathPanelText;
 
     public string Lvl_status { get { return lvl_status; } }
     private string lvl_status;
@@ -30,6 +32,7 @@ public class UI : MonoBehaviour
     {
         Events.Victory?.AddListener(Victory);
         Events.WaveComplited?.AddListener(WaveClear);
+        Events.Defeat?.AddListener(Defeat);
 
         foreach (Transform name in transform.GetComponentsInChildren<Transform>())
         {
@@ -38,17 +41,21 @@ public class UI : MonoBehaviour
             if (name.name == "MenuLVL") MenuLVL = name;
             if (name.name == "WaveClear") WaveClearPanel = name;
             if (name.name == "Victory") VictoryPanel = name;
-            if (name.name == "SpawnEnemy") SpawnEnemy = name;
-            if (name.name == "KillEnemy") KillEnemy = name;
+            //if (name.name == "SpawnEnemy") SpawnEnemy = name;
+            if (name.name == "Gold") Gold = name;
+            //if (name.name == "KillEnemy") KillEnemy = name;
+            if (name.name == "Hearth") KillEnemy = name; 
             if (name.name == "Wave") Wave = name;
-            //if (name.name == "DeathPanel") DeathPanel = name;
+            if (name.name == "DefeatPanel") DefeatPanel = name;
 
         }
+        _ResourceManager = FindObjectOfType<ResourceManager>();
+
         _Spawner = GameObject.Find("SpawnerEnemy").GetComponent<Spawner>();
         //DeathPanelText = DeathPanel.GetComponentsInChildren<Text>();
         ButtonLVL = MenuLVL.GetComponentsInChildren<Button>();
 
-        SpawnEnemyText = SpawnEnemy.GetComponentInChildren<Text>();
+        GoldText = Gold.GetComponentInChildren<Text>();
         KillEnemyText = KillEnemy.GetComponentInChildren<Text>();
         WaveText = Wave.GetComponentInChildren<Text>();
 
@@ -60,15 +67,16 @@ public class UI : MonoBehaviour
         VictoryPanel.gameObject.SetActive(false);
         PauseMenu.gameObject.SetActive(false);
         MenuLVL.gameObject.SetActive(false);
-        // DeathPanel.gameObject.SetActive(false);
+        DefeatPanel.gameObject.SetActive(false);
         InvokeRepeating("UIStats", 0, 0.25f);
     }
 
     private void UIStats()
     {
-        SpawnEnemyText.text = "LeftSpawn : " + _Spawner.LeftEnemy.ToString();
-        KillEnemyText.text = "Kill : " + _Spawner.EnemyDie.ToString();
+        //SpawnEnemyText.text = "LeftSpawn : " + _Spawner.LeftEnemy.ToString();
+        KillEnemyText.text = "Hearth : " + _ResourceManager.Hearth.ToString();
         WaveText.text = "Wave : " + _Spawner.Wave.ToString();
+        GoldText.text = "Gold : " + _ResourceManager.Gold.ToString();
     }
 
 
@@ -104,7 +112,7 @@ public class UI : MonoBehaviour
 
     public void ClickPause()
     {
-        SpawnEnemy.gameObject.SetActive(false);
+        //SpawnEnemy.gameObject.SetActive(false);
         KillEnemy.gameObject.SetActive(false);
         Wave.gameObject.SetActive(false);
         BPause.gameObject.SetActive(false);
@@ -116,7 +124,7 @@ public class UI : MonoBehaviour
     public void ClickContinue()
     {
         BPause.gameObject.SetActive(true);
-        SpawnEnemy.gameObject.SetActive(true);
+        //SpawnEnemy.gameObject.SetActive(true);
         KillEnemy.gameObject.SetActive(true);
         Wave.gameObject.SetActive(true);
         PauseMenu.gameObject.SetActive(false);
@@ -152,19 +160,28 @@ public class UI : MonoBehaviour
         PlayerPrefs.SetString("lvl_status", lvl_status);
     }
 
-    public void ClickQuit()
+    public void RestartLevel()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void DieStats(float distance)
+    public void SpeedUp()
     {
-        for (int i = 0; i < DeathPanelText.Length; i++)
-        {
+        if (Time.timeScale == 1)
+            Time.timeScale = 2;
+        else if (Time.timeScale == 2)
+            Time.timeScale = 4;
+        else if (Time.timeScale == 4)
+            Time.timeScale = 8;
+        else if (Time.timeScale == 8)
+            Time.timeScale = 1;
+    }
 
-        }
-        DeathPanel.gameObject.SetActive(true);
+    public void Defeat()
+    {
+        Time.timeScale = 0;
+        DefeatPanel.gameObject.SetActive(true);
     }
 
     private void ColorButton(string status)

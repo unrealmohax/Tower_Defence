@@ -14,12 +14,12 @@ public class Spawner : MonoBehaviour
 
     [SerializeField] private int _EnemyToWave;
     [SerializeField] private int _EnemyCount;
-    [SerializeField] private int _EnemyDie;
 
+    [SerializeField] private List<GameObject> Enemies = new List<GameObject>();
     public int EnemyDie { get { return _SummEnemyDie; } }
     private int _SummEnemyDie;
 
-
+    [SerializeField] private bool IsNotWin = true;
     private int _Count;
 
     [SerializeField] private float _TimeToSpawn;
@@ -33,50 +33,52 @@ public class Spawner : MonoBehaviour
         _TimeToSpawn = 2f;
 
         _EnemyToWave = 5;
-        _SummEnemyDie = _EnemyDie = _Count = 0;
+        _SummEnemyDie = _Count = 0;
         _EnemyCount = 10 + _EnemyToWave * _Wave;
 
         _Wave = 0;
     }
 
-    private void DieEnemy()
+    public void DieEnemy(GameObject enemy)
     {
-        _EnemyDie++;
         _SummEnemyDie++;
+        Enemies.Remove(enemy);
 
-        if (_EnemyDie == _EnemyCount)
-        {
-            _EnemyDie = 0;
+        if (Enemies.Count == 0)
             WaveComplited();
-        } 
+        
     }
 
     private void WaveComplited()
     {
         _Count = 0;
         Events.WaveComplited?.Invoke();
-        if (_Wave != _MaxWave)
+        if (_Wave != _MaxWave - 1)
         {
             _Wave++;
             _EnemyCount = 10 + _EnemyToWave * _Wave;
         }
-            
-        else
+        else 
+        {
+            IsNotWin = false;
             Events.Victory?.Invoke();
+        } 
     }
 
     private void Update()
     {
+        if (IsNotWin)
         if (_Count != _EnemyCount)
         {
             _CurrentTime += Time.deltaTime;
             if (_CurrentTime >= _TimeToSpawn)
             {
-                _CurrentTime = 0;
-                _Count++;
+                    _Count++;
+                    _CurrentTime = 0;
 
                 Events.SpawnEnemy?.Invoke();
-                Instantiate(_Enemy, transform.position, Quaternion.identity);
+                GameObject Enemy = Instantiate(_Enemy, transform.position, Quaternion.identity);
+                Enemies.Add(Enemy);
             }
         }
     }
